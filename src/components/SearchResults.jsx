@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import axios from 'axios';
 import { FaEllipsisV } from 'react-icons/fa';
+import { Link } from 'react-router';
 
 const SearchResults = () => {
   const { query } = useParams();
@@ -40,65 +41,90 @@ const SearchResults = () => {
         <p className="text-gray-500 text-center">No results found.</p>
       ) : (
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5 place-items-center">
-          {results.map((movie) => (
-            <div
-              key={movie.id}
-              className="relative w-full max-w-[160px] rounded-xl overflow-hidden group"
-            >
-            
-              <img
-                src={
-                  movie.poster_path
-                    ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
-                    : "https://via.placeholder.com/500x750?text=No+Image"
-                }
-                alt={movie.title || movie.name}
-                className="w-full h-60 object-cover rounded-xl group-hover:opacity-90 transition"
-              />
+          {results.map((movie) => {
+            const isNavigable = movie.media_type === 'movie' || movie.media_type === 'tv';
+            const route = movie.media_type === 'movie'
+              ? `/movie/${movie.id}`
+              : movie.media_type === 'tv'
+              ? `/tv/${movie.id}`
+              : '#';
 
-              
-              {movie.vote_average > 0 && (
-                <div className="absolute bottom-20 left-2 bg-black text-green-300 text-sm font-bold w-10 h-10 flex items-center justify-center rounded-full border-2 border-green-400">
-                  {Math.round(movie.vote_average * 10)}
-                  <sup className="text-[10px]">%</sup>
+            return (
+              <div key={movie.id} className="relative w-full max-w-[160px]">
+                {isNavigable ? (
+                  <Link to={route} className="block group">
+                    <img
+                      src={
+                        movie.poster_path
+                          ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+                          : "https://via.placeholder.com/500x750?text=No+Image"
+                      }
+                      alt={movie.title || movie.name}
+                      className="w-full h-60 object-cover rounded-xl group-hover:opacity-90 transition"
+                    />
+
+                    {movie.vote_average > 0 && (
+                      <div className="absolute bottom-20 left-2 bg-black text-green-300 text-sm font-bold w-10 h-10 flex items-center justify-center rounded-full border-2 border-green-400">
+                        {Math.round(movie.vote_average * 10)}
+                        <sup className="text-[10px]">%</sup>
+                      </div>
+                    )}
+
+                    <div className="mt-2 px-1">
+                      <h3 className="text-black font-bold text-sm leading-tight line-clamp-2">
+                        {movie.title || movie.name}
+                      </h3>
+                      <p className="text-gray-600 text-xs">
+                        {movie.release_date || movie.first_air_date
+                          ? new Date(movie.release_date || movie.first_air_date).toLocaleDateString('en-US', {
+                              month: 'short',
+                              day: '2-digit',
+                              year: 'numeric',
+                            })
+                          : 'Unknown'}
+                      </p>
+                    </div>
+                  </Link>
+                ) : (
+                  <>
+                    <img
+                      src={
+                        movie.poster_path
+                          ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+                          : "https://via.placeholder.com/500x750?text=No+Image"
+                      }
+                      alt={movie.title || movie.name}
+                      className="w-full h-60 object-cover rounded-xl"
+                    />
+                    <div className="mt-2 px-1">
+                      <h3 className="text-black font-bold text-sm leading-tight line-clamp-2">
+                        {movie.title || movie.name}
+                      </h3>
+                    </div>
+                  </>
+                )}
+
+                {/* Dropdown Button */}
+                <div
+                  className="absolute top-2 right-2 text-white bg-black/50 p-1 rounded-full cursor-pointer hover:bg-black z-10"
+                  onClick={() => toggleDropdown(movie.id)}
+                >
+                  <FaEllipsisV />
                 </div>
-              )}
 
-            
-              <div
-                className="absolute top-2 right-2 text-white bg-black/50 p-1 rounded-full cursor-pointer hover:bg-black z-10"
-                onClick={() => toggleDropdown(movie.id)}
-              >
-                <FaEllipsisV />
+                {/* Dropdown Menu */}
+                {openDropdownId === movie.id && (
+                  <div className="absolute top-10 right-2 bg-white text-black rounded-md shadow-lg w-40 z-20">
+                    <ul className="text-sm">
+                      <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Add to Watchlist</li>
+                      <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Add to Cart</li>
+                      <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Share</li>
+                    </ul>
+                  </div>
+                )}
               </div>
-
-             
-              {openDropdownId === movie.id && (
-                <div className="absolute top-10 right-2 bg-white text-black rounded-md shadow-lg w-40 z-20">
-                  <ul className="text-sm">
-                    <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Add to Watchlist</li>
-                    <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Add to Cart</li>
-                    <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Share</li>
-                  </ul>
-                </div>
-              )}
-
-              <div className="mt-2 px-1">
-                <h3 className="text-black font-bold text-sm leading-tight line-clamp-2">
-                  {movie.title || movie.name}
-                </h3>
-                <p className="text-gray-600 text-xs">
-                  {movie.release_date || movie.first_air_date
-                    ? new Date(movie.release_date || movie.first_air_date).toLocaleDateString('en-US', {
-                        month: 'short',
-                        day: '2-digit',
-                        year: 'numeric',
-                      })
-                    : 'Unknown'}
-                </p>
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       )}
     </div>

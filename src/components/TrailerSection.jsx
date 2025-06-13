@@ -2,14 +2,44 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { FaPlay, FaEllipsisV } from "react-icons/fa";
 
+// ✅ Trailer Modal Component
+const TrailerModal = ({ trailerKey, onClose }) => {
+  useEffect(() => {
+    const handleEsc = (e) => {
+      if (e.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", handleEsc);
+    return () => window.removeEventListener("keydown", handleEsc);
+  }, [onClose]);
+
+  return (
+    <div className="fixed inset-0 z-50 bg-black bg-opacity-80 flex items-center justify-center">
+      <div className="relative w-full max-w-2xl aspect-video bg-black rounded-xl overflow-hidden">
+        <iframe
+          loading="lazy"
+          className="w-full h-full"
+          src={`https://www.youtube.com/embed/${trailerKey}?autoplay=1`}
+          title="YouTube Trailer"
+          allowFullScreen
+        ></iframe>
+        <button
+          className="absolute top-2 right-2 bg-white text-black p-2 rounded-full hover:bg-gray-300 transition"
+          onClick={onClose}
+        >
+          ✕
+        </button>
+      </div>
+    </div>
+  );
+};
+
 const API_KEY = "37950764c84c26ca876141ed8bfeb702";
-
-
 
 const TrailerSection = () => {
   const [filter, setFilter] = useState("popular");
   const [trailers, setTrailers] = useState([]);
   const [bgImage, setBgImage] = useState("");
+  const [selectedTrailerKey, setSelectedTrailerKey] = useState(null);
 
   useEffect(() => {
     const fetchTrailers = async () => {
@@ -37,15 +67,16 @@ const TrailerSection = () => {
           })
         );
 
-        setTrailers(trailerData.filter((t) => t.trailerKey));
+        const validTrailers = trailerData.filter((t) => t.trailerKey);
+        setTrailers(validTrailers);
 
-        if (trailerData[0]?.backdrop) {
+        if (validTrailers[0]?.backdrop) {
           setBgImage(
-            `https://image.tmdb.org/t/p/original${trailerData[0].backdrop}`
+            `https://image.tmdb.org/t/p/original${validTrailers[0].backdrop}`
           );
         }
-      } catch (error) {
-        console.error("Error fetching trailers:", error);
+      } catch (err) {
+        console.error("Failed to fetch trailers", err);
       }
     };
 
@@ -59,64 +90,27 @@ const TrailerSection = () => {
         backgroundImage: `linear-gradient(to right, #0f2027c0, #203a43c0, #2c5364c0), url(${bgImage})`,
       }}
     >
-    
-      <div className="flex flex-col sm:flex-row sm:items-center  gap-4 mb-6">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center gap-4 mb-6">
         <h2 className="text-2xl font-bold">Latest Trailers</h2>
-
         <div className="flex flex-wrap bg-white p-1 rounded-full w-fit border border-gray-300">
-          <button
-            onClick={() => setFilter("popular")}
-            className={`px-4 py-1 rounded-full transition-all ${
-              filter === "popular"
-                ? "bg-blue-900 text-green-300"
-                : "text-gray-700"
-            }`}
-          >
-            Popular
-          </button>
-          <button
-            onClick={() => setFilter("now_playing")}
-            className={`px-4 py-1 rounded-full transition-all ${
-              filter === "now_playing"
-                ? "bg-blue-900 text-green-300"
-                : "text-gray-700"
-            }`}
-          >
-            Streaming
-          </button>
-          <button
-            onClick={() => setFilter("upcoming")}
-            className={`px-4 py-1 rounded-full transition-all ${
-              filter === "upcoming"
-                ? "bg-blue-900 text-green-300"
-                : "text-gray-700"
-            }`}
-          >
-            OnTv
-          </button>
-          <button
-            onClick={() => setFilter("top_rated")}
-            className={`px-4 py-1 rounded-full transition-all ${
-              filter === "top_rated"
-                ? "bg-blue-900 text-green-300"
-                : "text-gray-700"
-            }`}
-          >
-            ForRent
-          </button>
-          <button
-            onClick={() => setFilter("intheaters")}
-            className={`px-4 py-1 rounded-full transition-all ${
-              filter === "intheaters"
-                ? "bg-blue-900 text-green-300"
-                : "text-gray-700"
-            }`}
-          >
-            InTheaters
-          </button>
+          {["popular", "now_playing", "upcoming", "top_rated"].map((item) => (
+            <button
+              key={item}
+              onClick={() => setFilter(item)}
+              className={`px-4 py-1 rounded-full transition-all ${
+                filter === item
+                  ? "bg-blue-900 text-green-300"
+                  : "text-gray-700"
+              }`}
+            >
+              {item.replace(/_/g, " ")}
+            </button>
+          ))}
         </div>
       </div>
 
+      {/* Trailers List */}
       <div className="flex gap-4 overflow-x-auto scrollbar-hide pb-2">
         {trailers.map((trailer) => (
           <div
@@ -128,28 +122,34 @@ const TrailerSection = () => {
               alt={trailer.title}
               className="w-full h-40 object-cover rounded-xl"
             />
-            <a
-              href={`https://www.youtube.com/watch?v=${trailer.trailerKey}`}
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              onClick={() => setSelectedTrailerKey(trailer.trailerKey)}
               className="absolute inset-0 flex items-center justify-center"
             >
               <div className="w-10 h-10 bg-white bg-opacity-70 text-black rounded-full flex items-center justify-center hover:scale-105 transition">
                 <FaPlay />
               </div>
-            </a>
-
+            </button>
             <div className="absolute top-2 right-2 text-white bg-black/50 p-1 rounded-full">
               <FaEllipsisV />
             </div>
-
             <div className="mt-2 px-1">
-              <h3 className="text-white font-bold text-base line-clamp-1">{trailer.title}</h3>
+              <h3 className="text-white font-bold text-base line-clamp-1">
+                {trailer.title}
+              </h3>
               <p className="text-gray-300 text-sm">Watch Trailer</p>
             </div>
           </div>
         ))}
       </div>
+
+      {/* Trailer Modal */}
+      {selectedTrailerKey && (
+        <TrailerModal
+          trailerKey={selectedTrailerKey}
+          onClose={() => setSelectedTrailerKey(null)}
+        />
+      )}
     </div>
   );
 };
