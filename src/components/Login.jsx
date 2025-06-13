@@ -25,7 +25,7 @@ const Login = () => {
     ) {
       sessionStorage.setItem("auth", true);
       toast.success("Login Successful!");
-      navigate("/"); // Replace with your protected route
+      navigate("/"); 
     } else {
       setError("Invalid email or password");
       toast.error(error)
