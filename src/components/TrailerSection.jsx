@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { FaPlay, FaEllipsisV } from "react-icons/fa";
 
-// ✅ Trailer Modal Component
+
 const TrailerModal = ({ trailerKey, onClose }) => {
   useEffect(() => {
     const handleEsc = (e) => {
