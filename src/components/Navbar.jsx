@@ -199,7 +199,7 @@ const Navbar = () => {
         } transition-transform duration-300 ease-in-out md:hidden`}
       >
         <div className="flex justify-between items-center px-4 py-3 border-b border-white">
-          <img src={Img1} alt="logo" className="w-[100px]" />
+          <img src={Img1} alt="logo" className="w-[100px]" onClick={() => navigate('/')}  />
           <FaTimes
             className="cursor-pointer text-white text-xl"
             onClick={() => setIsMobileMenuOpen(false)}
@@ -211,7 +211,7 @@ const Navbar = () => {
             Movies
           </li>
           {isMobileMoviesOpen && (
-            <ul className="pl-4 text-sm space-y-1">
+            <ul className="pl-4 text-sm   space-y-1">
               <li><NavLink to={"/movie"} className="block">Popular</NavLink></li>
               <li><NavLink to={"/movie/now-playing"} className="block">Now Playing</NavLink></li>
               <li><NavLink to={"/movie/upcoming"} className="block">Upcoming</NavLink></li>
@@ -236,7 +236,7 @@ const Navbar = () => {
           </li>
           {isMobilePeopleOpen && (
             <ul className="pl-4 text-sm space-y-1">
-              <li className="block cursor-pointer">Popular People</li>
+              <li className="block cursor-pointer"> <NavLink to={'/people'}>Popular People </NavLink> </li>
             </ul>
           )}
 

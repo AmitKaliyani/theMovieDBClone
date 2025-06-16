@@ -22,10 +22,10 @@ const FreeToWatchSection = () => {
   }, [type]);
 
   return (
-    <div className="p-6 bg-gray-100">
-      <div className="flex gap-3 mb-4 items-center">
+    <div className="p-4 sm:p-6 bg-gray-100">
+      <div className="flex flex-col sm:flex-row gap-4 mb-4 sm:items-center">
         <h2 className="text-2xl font-bold">Free To Watch</h2>
-        <div className="flex bg-white p-1 rounded-full border border-gray-300">
+        <div className="flex bg-white p-1 w-fit rounded-full border border-gray-300">
           <button
             onClick={() => setType('movie')}
             className={`px-4 py-1 rounded-full transition-all ${
