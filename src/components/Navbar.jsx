@@ -66,22 +66,22 @@ const Navbar = () => {
                   }`}
                 >
                   <li>
-                    <NavLink to={"/movie"} className="block px-4 py-2 hover:bg-gray-100">
+                    <NavLink to={"/movie"} className="block px-4 py-2 whitespace-nowrap hover:bg-gray-100">
                       Popular
                     </NavLink>
                   </li>
                   <li>
-                    <NavLink to={"/movie/now-playing"} className="block px-4 py-2 hover:bg-gray-100">
+                    <NavLink to={"/movie/now-playing"} className="block whitespace-nowrap px-4 py-2 hover:bg-gray-100">
                       Now Playing
                     </NavLink>
                   </li>
                   <li>
-                    <NavLink to={"/movie/upcoming"} className="block px-4 py-2 hover:bg-gray-100">
+                    <NavLink to={"/movie/upcoming"} className="block whitespace-nowrap px-4 py-2 hover:bg-gray-100">
                       Upcoming
                     </NavLink>
                   </li>
                   <li>
-                    <NavLink to={"/movie/top-rated"} className="block px-4 py-2 hover:bg-gray-100">
+                    <NavLink to={"/movie/top-rated"} className="block whitespace-nowrap px-4 py-2 hover:bg-gray-100">
                       Top Rated
                     </NavLink>
                   </li>
@@ -101,22 +101,22 @@ const Navbar = () => {
                   }`}
                 >
                   <li>
-                    <NavLink to={"/tv"} className="block px-4 py-2 hover:bg-gray-100">
+                    <NavLink to={"/tv"} className="block px-4 py-2 whitespace-nowrap hover:bg-gray-100">
                       Popular
                     </NavLink>
                   </li>
                   <li>
-                    <NavLink to={"/tv/airing-today"} className="block px-4 py-2 hover:bg-gray-100">
+                    <NavLink to={"/tv/airing-today"} className="block px-4 py-2 whitespace-nowrap hover:bg-gray-100">
                       Airing Today
                     </NavLink>
                   </li>
                   <li>
-                    <NavLink to={"/tv/on-the-air"} className="block px-4 py-2 hover:bg-gray-100">
+                    <NavLink to={"/tv/on-the-air"} className="block px-4 py-2 whitespace-nowrap hover:bg-gray-100">
                       On TV
                     </NavLink>
                   </li>
                   <li>
-                    <NavLink to={"/tv/top-rated"} className="block px-4 py-2 hover:bg-gray-100">
+                    <NavLink to={"/tv/top-rated"} className="block px-4 py-2 whitespace-nowrap hover:bg-gray-100">
                       Top Rated
                     </NavLink>
                   </li>
@@ -150,11 +150,11 @@ const Navbar = () => {
                     isMoreOpen ? "opacity-100 visible" : "opacity-0 invisible"
                   }`}
                 >
-                  <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Discussions</li>
-                  <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Leaderboard</li>
-                  <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Support</li>
-                  <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">API Documentation</li>
-                  <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">API for Business</li>
+                  <li className="px-4 py-2 hover:bg-gray-100 whitespace-nowrap cursor-pointer">Discussions</li>
+                  <li className="px-4 py-2 hover:bg-gray-100 whitespace-nowrap cursor-pointer">Leaderboard</li>
+                  <li className="px-4 py-2 hover:bg-gray-100 whitespace-nowrap cursor-pointer">Support</li>
+                  <li className="px-4 py-2 hover:bg-gray-100 whitespace-nowrap cursor-pointer">API Documentation</li>
+                  <li className="px-4 py-2 hover:bg-gray-100 whitespace-nowrap cursor-pointer">API for Business</li>
                 </ul>
               </li>
             </ul>
