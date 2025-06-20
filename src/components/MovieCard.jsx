@@ -18,7 +18,7 @@ const MovieCard = ({ movies }) => {
         return (
           <div
             key={movie.id}
-            className="relative w-40 sm:w-44 md:w-48 flex-shrink-0 rounded-xl overflow-hidden group"
+            className="relative w-40 sm:w-44 md:w-52 flex-shrink-0 rounded-xl overflow-hidden group"
           >
           
             <Link to={linkTo}>
@@ -35,8 +35,8 @@ const MovieCard = ({ movies }) => {
 
        
             {movie.vote_average > 0 && (
-              <div className="absolute bottom-20 left-2 bg-black text-green-300 text-sm font-bold w-10 h-10 flex items-center justify-center rounded-full border-2 border-green-400">
-                {Math.round(movie.vote_average * 10)}<sup className="text-[10px]">%</sup>
+              <div className="absolute bottom-14 left-2 bg-black text-green-300 text-sm text-center font-bold w-10 h-10 flex items-center justify-center rounded-full border-2 border-green-400">
+                {Math.round(movie.vote_average * 10)}%
               </div>
             )}
 
