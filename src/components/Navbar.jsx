@@ -134,7 +134,7 @@ const Navbar = () => {
                     isPeopleOpen ? "opacity-100 visible" : "opacity-0 invisible"
                   }`}
                 >
-                  <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer"> <NavLink to={'/people'} >Popular People</NavLink></li>
+                  <li className="px-4 py-2 hover:bg-gray-100 whitespace-nowrap cursor-pointer"> <NavLink to={'/people'} >Popular People</NavLink></li>
                 </ul>
               </li>
 
